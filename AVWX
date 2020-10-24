@@ -1,15 +1,16 @@
 import pandas as pd
-import folium
+import folium as f
 
 url = 'https://www.aviationweather.gov/adds/dataserver_current/current/metars.cache.csv'
 
 data = pd.read_csv(url,
                    skiprows=5,
-                   index_col='station_id',
-                   usecols=['station_id', 'flight_category', 'latitude', 'longitude']).fillna(0)
+                   usecols=['raw_text',  'flight_category', 'latitude', 'longitude']).fillna(0)
 info = data.values.tolist()
 
-map = folium.Map(location=[0.00, 0.00])
+map = f.Map(location=[43.0718, 70.7626])
+
+
 
 for i in range(0, len(info)):
     index = info[i]
@@ -19,10 +20,10 @@ for i in range(0, len(info)):
     blue = '#13c5ed'
     magenta = '#c113ed'
     gray = '#82807c'
-   # airport = index[0]
-    lat = index[0]
-    long = index[1]
-    cat = index[2]
+    airport = index[0]
+    lat = index[1]
+    long = index[2]
+    cat = index[3]
 
     if cat == 'VFR':
         cat = green
@@ -35,11 +36,10 @@ for i in range(0, len(info)):
     elif cat == 'nan':
         cat = gray
 
-
-    folium.CircleMarker(
+    f.CircleMarker(
         location=(lat, long),
         radius=5,
-        popup='airport',
+        popup=airport,
         color=cat,
         fill=True,
         fill_color=cat
