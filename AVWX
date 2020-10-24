@@ -45,4 +45,4 @@ for i in range(0, len(info)):
         fill_color=cat
     ).add_to(map)
 
-map.save('Map.html')
+map.save('AVMap.html')
